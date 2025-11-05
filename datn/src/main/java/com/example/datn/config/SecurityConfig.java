@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -21,26 +20,23 @@ public class SecurityConfig {
     @Autowired
     private CustomSuccessHandler customSuccessHandler;
 
-
-
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/css/**", "/js/**", "/images/**").permitAll()
+                        .requestMatchers("/login", "/dangky", "/dangki", "/css/**", "/js/**", "/images/**", "/*.jpg", "/*.png").permitAll()
+                        .requestMatchers("/admin/**", "/khachhang/**", "/quanlynguoidung", "/quanlysanpham", "/quanlyhoadon", "/quanlydanhmuc", "/quanlythuonghieu", "/quanlybanhang", "/quanlymagiam").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage("/login")               // Trang login tùy chỉnh (login.html)
-                        .loginProcessingUrl("/login")      // URL mà form POST đến
-                        .usernameParameter("taiKhoan")
-                        .passwordParameter("matKhau")
-                        .successHandler(customSuccessHandler) // Xử lý khi đăng nhập thành công
-                        .failureUrl("/login?error")        // Khi đăng nhập thất bại
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login")
+                        .usernameParameter("taiKhoan")  // ✅ Khớp với name trong HTML
+                        .passwordParameter("matKhau")   // ✅ Khớp với name trong HTML
+                        .successHandler(customSuccessHandler)
+                        .failureUrl("/login?error")
                         .permitAll()
                 )
-
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
@@ -50,16 +46,17 @@ public class SecurityConfig {
 
         return http.build();
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return NoOpPasswordEncoder.getInstance(); // ✅ Plain text password
     }
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(customUserDetailsService);
-        provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance()); // ✅ Giữ nguyên
+        provider.setPasswordEncoder(passwordEncoder()); // ✅ Dùng NoOpPasswordEncoder
         return provider;
     }
 }

@@ -42,17 +42,24 @@ public class CustomUserDetails implements UserDetails {
     }
 
     @Override
-    public boolean isAccountNonExpired() { return true; }
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
     @Override
-    public boolean isAccountNonLocked() { return true; }
+    public boolean isAccountNonLocked() {
+        return true;
+    }
 
     @Override
-    public boolean isCredentialsNonExpired() { return true; }
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
 
     @Override
     public boolean isEnabled() {
-        boolean enabled = nhanVien.getTrangThai() == 1;
+        // Sửa lỗi: So sánh Integer với Integer, không phải boolean với Integer
+        boolean enabled = nhanVien.getTrangThai() != null && nhanVien.getTrangThai() == 1;
         System.out.println("   - isEnabled: " + enabled);
         return enabled;
     }

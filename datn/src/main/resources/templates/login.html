@@ -125,6 +125,13 @@
       display: block;
       font-weight: 500;
     }
+    .success-message {
+      color: #16a34a;
+      font-size: 0.875rem;
+      margin-bottom: 20px;
+      display: block;
+      font-weight: 500;
+    }
     .meta {
       margin-top: 25px;
       font-size: 0.9rem;
@@ -149,21 +156,25 @@
 
   <!-- Hiển thị thông báo lỗi -->
   <p th:if="${param.error}" class="error-message">Sai tên đăng nhập hoặc mật khẩu!</p>
-  <p th:if="${param.logout}" class="error-message" style="color:green;">Đăng xuất thành công!</p>
+  <p th:if="${param.logout}" class="success-message">Đăng xuất thành công!</p>
 
   <!-- Form đăng nhập -->
   <form th:action="@{/login}" method="post">
 
     <div class="form-group">
-      <label for="username">Tên đăng nhập</label>
-      <input type="text" id="username" name="username"
+      <label for="taiKhoan">Tên đăng nhập</label>
+      <input type="text" id="taiKhoan" name="taiKhoan"
              placeholder="Nhập tài khoản hoặc email"
+             autocomplete="username"
              required>
     </div>
 
     <div class="form-group">
-      <label for="password">Mật khẩu</label>
-      <input type="password" id="password" name="password" placeholder="Mật khẩu" required>
+      <label for="matKhau">Mật khẩu</label>
+      <input type="password" id="matKhau" name="matKhau"
+             placeholder="Mật khẩu"
+             autocomplete="current-password"
+             required>
     </div>
 
     <div class="meta-options">
@@ -171,13 +182,13 @@
         <input type="checkbox" id="remember-me" name="remember-me">
         <label for="remember-me">Ghi nhớ đăng nhập</label>
       </div>
-      <a href="#">Quên mật khẩu?</a>
+      <a th:href="@{/quenmatkhau}">Quên mật khẩu?</a>
     </div>
 
     <button type="submit">Đăng nhập</button>
   </form>
 
-  <p class="meta">Chưa có tài khoản? <a th:href="@{/dangky}">Đăng ký</a></p>
+  <p class="meta">Chưa có tài khoản? <a href="dangki.html">Đăng ký</a></p>
 </div>
 
 </body>

@@ -1,149 +1,247 @@
-<!DOCTYPE html>
-<html lang="vi">
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Form Đăng Ký</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Đăng ký tài khoản</title>
   <style>
-    /* Thiết lập cơ bản */
+    :root {
+      --bg: #f3f6fb;
+      --card: #ffffff;
+      --accent: #3b82f6;
+      --muted: #6b7280;
+      --radius: 12px;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    * { box-sizing: border-box }
     body {
-      font-family: 'Roboto', sans-serif;
-      background-color: #f0f2f5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
       margin: 0;
-      padding: 20px;
-    }
-
-    /* Container chính của form */
-    .registration-form-container {
-      max-width: 450px;
-      width: 100%;
-      padding: 20px;
-      background-color: #fff;
-      border-radius: 5px;
-    }
-
-    .registration-form-container h1 {
-      font-size: 24px;
-      color: #333;
-      margin-top: 0;
-      margin-bottom: 20px;
-      text-align: center; /* Căn giữa tiêu đề */
-    }
-
-    /* Nhóm input */
-    .input-group {
-      margin-bottom: 15px;
-    }
-
-    /* Kiểu dáng cho tất cả các ô input trong form */
-    .registration-form-container input[type="text"],
-    .registration-form-container input[type="tel"],
-    .registration-form-container input[type="email"],
-    .registration-form-container input[type="password"] {
-      width: 100%;
-      padding: 12px 10px;
-      border: 1px solid #ccc;
-      border-radius: 0;
-      font-size: 16px;
-      box-sizing: border-box;
-    }
-
-    /* Làm nổi bật ô input khi focus */
-    .registration-form-container input:focus {
-      border-color: #666;
-      outline: none;
-    }
-
-    /* ************************************************* */
-    /* PHẦN ĐÃ CHỈNH SỬA CHO CĂN GIỮA VÀ CÁCH ĐỀU */
-    /* ************************************************* */
-    .action-group {
+      background: linear-gradient(180deg, var(--bg), #eef4ff);
+      min-height: 100vh;
       display: flex;
-      /* THAY ĐỔI: Căn giữa các phần tử trong container */
-      justify-content: center;
       align-items: center;
-      margin-top: 5px; /* Điều chỉnh khoảng cách trên */
-      margin-bottom: 20px;
+      justify-content: center;
+      padding: 32px;
+    }
+    .card {
       width: 100%;
-      /* CÁCH 1: Dùng thuộc tính gap (Hiện đại và gọn gàng hơn) */
-      gap: 20px; /* Khoảng cách 20px giữa hai nút */
-
-      /* CÁCH 2: Nếu không dùng gap, bạn dùng margin-right cho nút đầu tiên */
-      /* Nếu không dùng gap, hãy dùng: .register-button { margin-right: 20px; } */
-    }
-
-    /* CSS cho nút Đăng ký (bên trái) */
-    .register-button {
-      padding: 12px 30px;
-      background-color: #ff8800;
-      color: #fff;
-      font-size: 16px;
-      font-weight: 500;
-      border: none;
-      border-radius: 3px;
-      cursor: pointer;
-      text-transform: uppercase;
-      transition: background-color 0.3s;
-    }
-
-    .register-button:hover {
-      background-color: #e67d00;
-    }
-
-    /* CSS cho nút Trở về (bên phải) */
-    .login-link {
-      display: block;
-      padding: 12px 30px;
-      background-color: #ff8800;
-      color: #fff;
-      font-size: 16px;
-      font-weight: 500;
-      border: none;
-      border-radius: 3px;
-      cursor: pointer;
-      text-transform: uppercase;
-      text-decoration: none;
+      max-width: 520px;
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: 0 8px 30px rgba(18, 38, 63, 0.1);
+      padding: 32px;
       text-align: center;
-      transition: background-color 0.3s;
     }
-
-    .login-link:hover {
-      background-color: #e67d00;
+    .logo-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+    .logo-img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #e2e8f0;
+      padding: 5px;
+    }
+    h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #12263f;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      color: var(--muted);
+      margin-top: 0;
+      margin-bottom: 24px;
+      font-size: 0.95rem;
+    }
+    .form-group {
+      text-align: left;
+      margin-bottom: 18px;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+    label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #12263f;
+      margin-bottom: 6px;
+    }
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    input:focus,
+    select:focus {
+      border-color: var(--accent);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+    button[type="submit"] {
+      width: 100%;
+      padding: 12px;
+      background-color: var(--accent);
+      color: var(--card);
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 15px;
+      transition: background-color 0.3s, transform 0.1s;
+    }
+    button[type="submit"]:hover {
+      background-color: #2563eb;
+    }
+    button[type="submit"]:active {
+      transform: scale(0.99);
+    }
+    .error-message {
+      color: #dc2626;
+      font-size: 0.875rem;
+      margin-bottom: 20px;
+      display: block;
+      font-weight: 500;
+      background: #fee2e2;
+      padding: 12px;
+      border-radius: 8px;
+    }
+    .success-message {
+      color: #16a34a;
+      font-size: 0.875rem;
+      margin-bottom: 20px;
+      display: block;
+      font-weight: 500;
+      background: #d1fae5;
+      padding: 12px;
+      border-radius: 8px;
+    }
+    .meta {
+      margin-top: 25px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .meta a {
+      color: var(--accent);
       text-decoration: none;
+      font-weight: 600;
+    }
+    .required {
+      color: #dc2626;
+    }
+    @media (max-width: 600px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
-<div class="registration-form-container">
-  <form>
-    <h1>Đăng kí</h1>
-    <div class="input-group">
-      <input type="text" id="fullname" name="fullname" placeholder="Họ tên" required>
+
+<div class="card">
+  <div class="logo-container">
+    <img th:src="@{/PL.jpg}" alt="Logo" class="logo-img">
+  </div>
+
+  <h2>Đăng ký tài khoản</h2>
+  <p class="subtitle">Tạo tài khoản mới 🚀</p>
+
+  <!-- Hiển thị thông báo lỗi -->
+  <p th:if="${error}" class="error-message" th:text="${error}"></p>
+  <p th:if="${success}" class="success-message" th:text="${success}"></p>
+
+  <!-- Form đăng ký -->
+  <form th:action="@{/dangky}" method="post" th:object="${dangKyRequest}">
+
+    <div class="form-group">
+      <label for="tenNhanVien">Họ và tên <span class="required">*</span></label>
+      <input type="text" id="tenNhanVien" th:field="*{tenNhanVien}"
+             placeholder="Nguyễn Văn A" required>
     </div>
 
-    <div class="input-group">
-      <input type="tel" id="phone" name="phone" placeholder="Điện thoại" required>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="taiKhoan">Tài khoản <span class="required">*</span></label>
+        <input type="text" id="taiKhoan" th:field="*{taiKhoan}"
+               placeholder="username" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email <span class="required">*</span></label>
+        <input type="email" id="email" th:field="*{email}"
+               placeholder="email@example.com" required>
+      </div>
     </div>
 
-    <div class="input-group">
-      <input type="email" id="email" name="email" placeholder="Email" required>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="matKhau">Mật khẩu <span class="required">*</span></label>
+        <input type="password" id="matKhau" th:field="*{matKhau}"
+               placeholder="Tối thiểu 6 ký tự" required minlength="6">
+      </div>
+
+      <div class="form-group">
+        <label for="xacNhanMatKhau">Xác nhận mật khẩu <span class="required">*</span></label>
+        <input type="password" id="xacNhanMatKhau" th:field="*{xacNhanMatKhau}"
+               placeholder="Nhập lại mật khẩu" required minlength="6">
+      </div>
     </div>
 
-    <div class="input-group">
-      <input type="password" id="password" name="password" placeholder="Mật khẩu của bạn" required>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="sdt">Số điện thoại <span class="required">*</span></label>
+        <input type="text" id="sdt" th:field="*{sdt}"
+               placeholder="0123456789" required pattern="[0-9]{10,11}">
+      </div>
+
+      <div class="form-group">
+        <label for="gioiTinh">Giới tính</label>
+        <select id="gioiTinh" th:field="*{gioiTinh}">
+          <option value="Nam">Nam</option>
+          <option value="Nữ">Nữ</option>
+          <option value="Khác">Khác</option>
+        </select>
+      </div>
     </div>
 
-    <div class="action-group">
-      <button type="submit" class="register-button">ĐĂNG KÝ</button>
-      <a href="/login" class="login-link">Trở về</a>
+    <div class="form-group">
+      <label for="diaChi">Địa chỉ</label>
+      <input type="text" id="diaChi" th:field="*{diaChi}"
+             placeholder="Nhập địa chỉ của bạn">
     </div>
+
+    <button type="submit">Đăng ký</button>
   </form>
+
+  <p class="meta">Đã có tài khoản? <a th:href="@{/login}">Đăng nhập ngay</a></p>
 </div>
+
+<script>
+  // Validate password match
+  document.querySelector('form').addEventListener('submit', function(e) {
+    const password = document.getElementById('matKhau').value;
+    const confirmPassword = document.getElementById('xacNhanMatKhau').value;
+
+    if (password !== confirmPassword) {
+      e.preventDefault();
+      alert('Mật khẩu xác nhận không khớp!');
+      return false;
+    }
+  });
+</script>
+
 </body>
 </html>

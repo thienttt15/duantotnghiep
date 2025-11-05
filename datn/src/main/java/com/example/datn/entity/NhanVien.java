@@ -16,6 +16,9 @@ public class NhanVien {
     @JoinColumn(name = "ID_VaiTro")
     private VaiTro vaiTro;
 
+    @Column(name = "MaNhanVien")
+    private String maNhanVien;
+
     @Column(name = "TaiKhoan")
     private String taiKhoan;
 
@@ -24,6 +27,18 @@ public class NhanVien {
 
     @Column(name = "TenNhanVien")
     private String tenNhanVien;
+
+    @Column(name = "GioiTinh")
+    private String gioiTinh;
+
+    @Column(name = "SDT")
+    private String sdt;
+
+    @Column(name = "Email")
+    private String email;
+
+    @Column(name = "DiaChi")
+    private String diaChi;
 
     @Column(name = "TrangThai")
     private Integer trangThai;

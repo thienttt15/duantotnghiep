@@ -45,6 +45,10 @@ public class HomeController {
     public String quanlysanpham() {
         return "quanlysanpham"; // trả về file login.html trong thư mục templates
     }
+    @GetMapping("/quanlykhachhang")
+    public String quanLyKhachHang() {
+        return "redirect:/khachhang";
+    }
     @GetMapping("/quanlyhoadon")
     public String quanlyhoadon() {
         return "quanlyhoadon"; // trả về file login.html trong thư mục templates
@@ -71,10 +75,8 @@ public class HomeController {
     public String repass() {
         return "quenmatkhau"; // trả về file login.html trong thư mục templates
     }
-    @GetMapping("/dangki")
-    public String dangki() {
-        return "dangki"; // trả về file login.html trong thư mục templates
-    }
+  // trả về file login.html trong thư mục templates
+
     @GetMapping("/collections/aokhoacparka")
     public String showParkaProducts(Model model) {
 
@@ -197,7 +199,7 @@ public class HomeController {
     }
     @GetMapping("/login")
     public String login() {
-        return "login"; // quanlybanhang.html
+        return "login"; // file login.html trong templates
     }
 }
 
